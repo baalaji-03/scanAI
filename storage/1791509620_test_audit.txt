@@ -1,0 +1,1 @@
+ASTM-D48 Thermal Runaway Test Results: Energy density drops from 850 Wh/L to 680 Wh/L under 45C ambient conditions.

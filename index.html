@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SynapseAI // Intelligent Information Understanding & Processing Engine</title>
+  <meta name="description" content="Next-Generation AI-powered Information Understanding, Semantic Synthesis, Conflict Detection, and Knowledge Organization Engine.">
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-deep-space">
+  <!-- Interactive Neural Canvas Background -->
+  <canvas id="neuralCanvas"></canvas>
+  <div class="glow-orb orb-primary"></div>
+  <div class="glow-orb orb-secondary"></div>
+  <div class="glow-orb orb-accent"></div>
+
+  <!-- App Wrapper -->
+  <div class="app-container">
+    
+    <!-- TOP NAVIGATION & COMMAND BAR -->
+    <header class="top-header glass-card">
+      <div class="header-left">
+        <div class="brand-badge">
+          <div class="brand-icon-box">
+            <svg class="brand-svg" viewBox="0 0 32 32" fill="none">
+              <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#brandGrad)" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="16" cy="16" r="4" fill="url(#coreGrad)"/>
+              <path d="M16 12V6M16 26V20M8 11.5L12.5 14M19.5 18L24 20.5M8 20.5L12.5 18M19.5 14L24 11.5" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="brandGrad" x1="4" y1="2" x2="28" y2="30" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#06b6d4"/>
+                  <stop offset="0.5" stop-color="#8b5cf6"/>
+                  <stop offset="1" stop-color="#ec4899"/>
+                </linearGradient>
+                <linearGradient id="coreGrad" x1="12" y1="12" x2="20" y2="20" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#38bdf8"/>
+                  <stop offset="1" stop-color="#a855f7"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="pulse-ring"></div>
+          </div>
+          <div class="brand-text">
+            <div class="brand-title">SYNAPSE <span class="gradient-text">AI</span></div>
+            <div class="brand-subtitle">INTELLIGENT INFORMATION SYNTHESIS</div>
+          </div>
+        </div>
+
+        <!-- Live Engine Telemetry Badge -->
+        <div class="engine-telemetry-badge" title="Neural Ingestion Core Status">
+          <span class="live-dot"></span>
+          <span class="telemetry-label">NEURAL ENGINE:</span>
+          <span class="telemetry-val" id="telemetryStatus">ONLINE (14ms)</span>
+          <span class="telemetry-sep">•</span>
+          <span class="telemetry-sub" id="telemetryDocsCount">3 Active Sources</span>
+        </div>
+      </div>
+
+      <!-- WORKFLOW STAGE STEPPER PILLS -->
+      <nav class="workflow-stepper" aria-label="Workflow Navigation">
+        <button class="step-pill active" data-step="find" id="navStepFind">
+          <span class="step-num">01</span>
+          <span class="step-icon">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+          </span>
+          <div class="step-meta">
+            <span class="step-name">FIND</span>
+            <span class="step-desc">Ingest & Discover</span>
+          </div>
+          <span class="step-indicator"></span>
+        </button>
+
+        <div class="step-connector"></div>
+
+        <button class="step-pill" data-step="understand" id="navStepUnderstand">
+          <span class="step-num">02</span>
+          <span class="step-icon">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/></svg>
+          </span>
+          <div class="step-meta">
+            <span class="step-name">UNDERSTAND</span>
+            <span class="step-desc">Extract & Synthesize</span>
+          </div>
+          <span class="step-indicator"></span>
+        </button>
+
+        <div class="step-connector"></div>
+
+        <button class="step-pill" data-step="organize" id="navStepOrganize">
+          <span class="step-num">03</span>
+          <span class="step-icon">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z"/></svg>
+          </span>
+          <div class="step-meta">
+            <span class="step-name">ORGANIZE</span>
+            <span class="step-desc">Compare & Resolve</span>
+          </div>
+          <span class="step-indicator"></span>
+        </button>
+
+        <div class="step-connector"></div>
+
+        <button class="step-pill" data-step="use" id="navStepUse">
+          <span class="step-num">04</span>
+          <span class="step-icon">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/></svg>
+          </span>
+          <div class="step-meta">
+            <span class="step-name">USE</span>
+            <span class="step-desc">Chat & Deliverables</span>
+          </div>
+          <span class="step-indicator"></span>
+        </button>
+      </nav>
+
+      <!-- Action Controls & Hackathon Demo Mode -->
+      <div class="header-right">
+        <!-- Preset Scenario Selector -->
+        <div class="dataset-selector-wrapper">
+          <label for="datasetSelect" class="sr-only">Knowledge Domain Preset</label>
+          <select id="datasetSelect" class="cyber-select" title="Switch Demo Domain">
+            <option value="battery">Domain: Quantum Solid-State Battery</option>
+            <option value="fintech">Domain: Q3 FinTech M&A Due Diligence</option>
+            <option value="biomed">Domain: Oncology Trial Multi-Study</option>
+          </select>
+        </div>
+
+        <!-- Audio SFX Toggle -->
+        <button id="audioToggleBtn" class="cyber-icon-btn active" title="Toggle Futuristic SFX Audio" aria-label="Toggle Audio">
+          <svg class="audio-on-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          <svg class="audio-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+        </button>
+
+        <!-- Backend API & DB Status Badge -->
+        <div class="engine-telemetry-badge" id="backendSyncBadge" title="FastAPI & MySQL Connection">
+          <span class="live-dot emerald"></span>
+          <span class="telemetry-label">API:</span>
+          <span class="telemetry-val" id="apiStatusText">ONLINE :8055</span>
+          <span class="telemetry-sep">•</span>
+          <span class="telemetry-sub" id="dbStatusText">MySQL / SQLite</span>
+        </div>
+
+        <!-- User Authentication & Profile Pill -->
+        <button id="userAuthBtn" class="cyber-btn sm secondary user-auth-pill" title="User Authentication & Profile">
+          <span class="user-avatar-dot"></span>
+          <span id="userAuthName">Dr. Elena Vance (Analyst)</span>
+        </button>
+
+        <!-- Hackathon Jury Demo Tour Button -->
+        <button id="juryTourBtn" class="btn-jury-tour" title="Run Hackathon Jury Guided Walkthrough">
+          <span class="sparkle-icon">✨</span>
+          <span class="jury-btn-text">Jury Demo Tour</span>
+          <span class="hotkey-pill">Auto</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN INTERACTIVE WORKSPACE VIEWPORT -->
+    <main class="main-viewport" id="mainViewport">
+
+      <!-- ========================================================================= -->
+      <!-- STAGE 1: FIND (INGESTION, MULTIMODAL PARSING, SEMANTIC SEARCH)             -->
+      <!-- ========================================================================= -->
+      <section class="stage-section active" id="stage-find" data-stage="find">
+        <div class="stage-header-banner">
+          <div class="banner-content">
+            <div class="banner-badge"><span class="badge-dot"></span> PHASE 1: DISCOVER & INGEST</div>
+            <h1 class="stage-title">Multi-Source Information Discovery & Ingestion</h1>
+            <p class="stage-desc">
+              Ingest unstructured documents, technical whitepapers, financial statements, and clinical datasets. 
+              Synapse AI executes real-time semantic chunking, vector embedding, OCR normalization, and metadata tagging.
+            </p>
+          </div>
+          <div class="banner-stats">
+            <div class="mini-stat-card glass-panel">
+              <span class="mini-stat-val" id="statIndexedChunks">142</span>
+              <span class="mini-stat-lbl">Indexed Chunks</span>
+            </div>
+            <div class="mini-stat-card glass-panel">
+              <span class="mini-stat-val" id="statVectorDim">1,536</span>
+              <span class="mini-stat-lbl">Embedding Dims</span>
+            </div>
+            <div class="mini-stat-card glass-panel">
+              <span class="mini-stat-val" id="statParseSpeed">0.24s</span>
+              <span class="mini-stat-lbl">Avg Parse Latency</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="find-grid">
+          <!-- Left Column: Drag & Drop Ingestion Hub -->
+          <div class="find-col-ingest">
+            <div class="glass-card panel-container">
+              <div class="panel-header">
+                <div class="panel-title-group">
+                  <div class="panel-icon cyan-glow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  </div>
+                  <div>
+                    <h2 class="panel-heading">Smart Ingestion Hub</h2>
+                    <span class="panel-sub">Drag files, URLs, or pick pre-compiled domain datasets</span>
+                  </div>
+                </div>
+                <button class="ghost-btn-sm" id="btnResetDocs" title="Restore Default Sources">Reset Sources</button>
+              </div>
+
+              <!-- Interactive Drag & Drop Box -->
+              <div class="drop-zone" id="dropZone" tabindex="0">
+                <input type="file" id="fileInput" class="file-input-hidden" multiple accept=".pdf,.docx,.txt,.csv,.json,.md">
+                <div class="drop-zone-content">
+                  <div class="floating-upload-icon">
+                    <svg viewBox="0 0 48 48" fill="none">
+                      <circle cx="24" cy="24" r="22" stroke="url(#dropGrad)" stroke-width="2" stroke-dasharray="4 4"/>
+                      <path d="M24 14V30M18 20L24 14L30 20" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M15 34H33" stroke="#a855f7" stroke-width="2" stroke-linecap="round"/>
+                      <defs>
+                        <linearGradient id="dropGrad" x1="0" y1="0" x2="48" y2="48">
+                          <stop stop-color="#38bdf8"/>
+                          <stop offset="1" stop-color="#ec4899"/>
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+                  <h3 class="drop-title">Drag & Drop Documents Here</h3>
+                  <p class="drop-hint">Supports PDF, DOCX, CSV, Research Whitepapers, or Markdown</p>
+                  <div class="drop-action-row">
+                    <button class="cyber-btn primary" id="btnBrowseFiles">
+                      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                      Browse Files
+                    </button>
+                    <button class="cyber-btn secondary" id="btnSimulateUpload">
+                      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/></svg>
+                      Simulate Incoming Feed
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Active Ingestion Telemetry Overlay (Animated when uploading) -->
+                <div class="upload-progress-overlay" id="uploadProgressOverlay">
+                  <div class="progress-box">
+                    <div class="progress-header">
+                      <span class="progress-title" id="progressTitle">Analyzing & Vectorizing Document...</span>
+                      <span class="progress-pct" id="progressPct">0%</span>
+                    </div>
+                    <div class="progress-bar-track">
+                      <div class="progress-bar-fill" id="progressBarFill"></div>
+                    </div>
+                    <div class="progress-steps-list">
+                      <div class="p-step active" id="pStep1"><span>✓</span> OCR Extraction & Layout Parsing</div>
+                      <div class="p-step" id="pStep2"><span>◌</span> Semantic Chunking (800 token windows)</div>
+                      <div class="p-step" id="pStep3"><span>◌</span> OpenAI text-embedding-3-large (1536-D)</div>
+                      <div class="p-step" id="pStep4"><span>◌</span> Cross-Entity Graph Insertion</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Active Ingested Document Shards -->
+              <div class="active-docs-list-wrapper">
+                <div class="section-subhead">
+                  <span>Active Knowledge Corpus (<span id="sourceCountBadge">3</span> Sources)</span>
+                  <span class="tag-status">Auto-Sync On</span>
+                </div>
+                <div class="doc-cards-list" id="docCardsList">
+                  <!-- Populated dynamically via JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Smart Semantic Search & Discovery Explorer -->
+          <div class="find-col-search">
+            <div class="glass-card panel-container">
+              <div class="panel-header">
+                <div class="panel-title-group">
+                  <div class="panel-icon purple-glow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M11 8a3 3 0 0 0-3 3"/></svg>
+                  </div>
+                  <div>
+                    <h2 class="panel-heading">Smart Semantic Discovery</h2>
+                    <span class="panel-sub">Natural language contextual search with neural relevance scoring</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Semantic Search Bar with Dynamic Query Suggestions -->
+              <div class="search-bar-container">
+                <div class="search-input-wrapper">
+                  <div class="search-lens-icon">
+                    <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+                  </div>
+                  <input type="text" id="semanticSearchInput" class="semantic-search-input" placeholder="Ask anything, e.g. 'What is the degradation rate at 45°C?' or 'Compare safety benchmarks'" value="What is the energy density and cycle life limit under accelerated stress?">
+                  <button class="search-exec-btn" id="btnExecuteSearch" title="Execute Semantic Retrieval">
+                    <span>Search</span>
+                    <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                  </button>
+                </div>
+
+                <!-- Query Expansion / AI Suggestions Pills -->
+                <div class="query-expansion-bar">
+                  <span class="ai-label"><span class="magic-sparkle">✦</span> AI Query Expansion:</span>
+                  <div class="expansion-chips" id="expansionChips">
+                    <button class="chip-btn" data-query="Volumetric energy density ASTM testing">Energy Density vs ASTM</button>
+                    <button class="chip-btn" data-query="Thermal runaway cathode decomposition">Thermal Runaway Limit</button>
+                    <button class="chip-btn" data-query="Discrepancy between lab bench and commercial scale">Audit Discrepancies</button>
+                    <button class="chip-btn" data-query="Cost per kWh manufacturing trajectory 2027">Cost Projections</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Semantic Search Results Stream -->
+              <div class="search-results-section">
+                <div class="results-meta-header">
+                  <span class="results-count" id="resultsCount">Found 3 High-Relevance Semantic Shards</span>
+                  <div class="results-filter-pills">
+                    <button class="filter-pill active" data-filter="all">All Sources</button>
+                    <button class="filter-pill" data-filter="high-conf">High Confidence (>90%)</button>
+                    <button class="filter-pill" data-filter="conflicts">Discrepancy Snippets</button>
+                  </div>
+                </div>
+
+                <div class="search-results-stream" id="searchResultsStream">
+                  <!-- Populated dynamically via JS -->
+                </div>
+
+                <!-- Quick Action Footer -->
+                <div class="search-bottom-cta">
+                  <div class="cta-notice">
+                    <span class="spark-icon">💡</span>
+                    <span>Ready to extract deeper relationships and detect conflicting claims?</span>
+                  </div>
+                  <button class="cyber-btn primary pulse-glow" id="btnProceedToUnderstand">
+                    <span>Proceed to Stage 02: Understand</span>
+                    <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- STAGE 2: UNDERSTAND (SYNTHESIS, HIGHLIGHTING, ENTITY EXTRACTION)            -->
+      <!-- ========================================================================= -->
+      <section class="stage-section" id="stage-understand" data-stage="understand">
+        <div class="stage-header-banner">
+          <div class="banner-content">
+            <div class="banner-badge"><span class="badge-dot purple-dot"></span> PHASE 2: SYNTHESIZE & EXTRACT</div>
+            <h1 class="stage-title">Intelligent AI Deep Understanding & Key-Detail Extraction</h1>
+            <p class="stage-desc">
+              Extract high-signal executive takeaways, numerical facts, risk indicators, and critical entities.
+              Hover over interactive highlights to inspect vector provenance and confidence metrics.
+            </p>
+          </div>
+          <div class="banner-actions">
+            <!-- Summary Density Controls -->
+            <div class="density-group">
+              <span class="group-label">Synthesis Mode:</span>
+              <div class="pill-segmented">
+                <button class="seg-btn" data-density="brief">Executive Brief</button>
+                <button class="seg-btn active" data-density="detailed">Deep Dive</button>
+                <button class="seg-btn" data-density="bullets">Key Bullet Matrix</button>
+              </div>
+            </div>
+            <button class="cyber-btn secondary" id="btnReSynthesize">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+              Re-Synthesize
+            </button>
+          </div>
+        </div>
+
+        <!-- Top Insights Metric Ribbons -->
+        <div class="stats-ribbon-grid">
+          <div class="stat-glass-card">
+            <div class="card-glow-edge cyan"></div>
+            <div class="stat-top">
+              <span class="stat-title">Semantic Density</span>
+              <span class="stat-badge high">98.4%</span>
+            </div>
+            <div class="stat-main">
+              <span class="stat-big-num" id="metricDensity">4.8x</span>
+              <span class="stat-trend positive">↑ High Signal/Noise</span>
+            </div>
+            <p class="stat-caption">Filtered 41,200 redundant filler words across 3 documents.</p>
+          </div>
+
+          <div class="stat-glass-card">
+            <div class="card-glow-edge purple"></div>
+            <div class="stat-top">
+              <span class="stat-title">Extracted Key Details</span>
+              <span class="stat-badge purple">Live</span>
+            </div>
+            <div class="stat-main">
+              <span class="stat-big-num" id="metricEntities">38</span>
+              <span class="stat-trend neutral">Across 4 taxonomies</span>
+            </div>
+            <p class="stat-caption">Metrics, organizations, thermal risks, and regulatory standards.</p>
+          </div>
+
+          <div class="stat-glass-card">
+            <div class="card-glow-edge amber"></div>
+            <div class="stat-top">
+              <span class="stat-title">Conflict Alerts Detected</span>
+              <span class="stat-badge alert">Requires Review</span>
+            </div>
+            <div class="stat-main">
+              <span class="stat-big-num text-amber" id="metricConflicts">3</span>
+              <span class="stat-trend negative">⚠️ High variance found</span>
+            </div>
+            <p class="stat-caption">Incompatible claims identified between Doc A and Doc B.</p>
+          </div>
+
+          <div class="stat-glass-card">
+            <div class="card-glow-edge emerald"></div>
+            <div class="stat-top">
+              <span class="stat-title">Synthesis Confidence</span>
+              <span class="stat-badge verified">Verified</span>
+            </div>
+            <div class="stat-main">
+              <span class="stat-big-num text-emerald" id="metricConfidence">96.8%</span>
+              <span class="stat-trend positive">✓ Fully Grounded</span>
+            </div>
+            <p class="stat-caption">Zero hallucinations detected against active corpus.</p>
+          </div>
+        </div>
+
+        <div class="understand-layout-grid">
+          <!-- Left: AI Synthesis Engine & Audio Executive Briefing -->
+          <div class="understand-left-col">
+            <div class="glass-card panel-container">
+              <div class="panel-header">
+                <div class="panel-title-group">
+                  <div class="panel-icon magenta-glow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.93V18a1 1 0 0 1-2 0v-1.07A7 7 0 0 1 5.07 11H4a1 1 0 0 1 0-2h1.07A7 7 0 0 1 11 5.07V4a1 1 0 0 1 2 0v1.07A7 7 0 0 1 18.93 9H20a1 1 0 0 1 0 2h-1.07A7 7 0 0 1 13 16.93z"/></svg>
+                  </div>
+                  <div>
+                    <h2 class="panel-heading">AI Executive Synthesis Stream</h2>
+                    <span class="panel-sub">Real-time coherent synthesis with factual grounding</span>
+                  </div>
+                </div>
+
+                <div class="streaming-indicator" id="streamingIndicator">
+                  <span class="pulse-indicator"></span>
+                  <span class="streaming-text">GENERATING</span>
+                </div>
+              </div>
+
+              <!-- Simulated Audio Briefing Bar -->
+              <div class="audio-brief-player glass-panel">
+                <button class="audio-play-btn" id="btnPlayAudioBrief" title="Play AI Spoken Executive Briefing">
+                  <svg id="playIconSvg" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <svg id="pauseIconSvg" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                </button>
+                <div class="audio-meta">
+                  <div class="audio-title-line">
+                    <span class="audio-label">AI Audio Executive Briefing</span>
+                    <span class="audio-duration" id="audioTime">01:42 / 02:15</span>
+                  </div>
+                  <!-- Visual Waveform -->
+                  <div class="audio-waveform" id="audioWaveform">
+                    <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                    <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                    <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                    <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                    <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                    <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                    <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                    <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                  </div>
+                </div>
+                <span class="audio-tag">Neural Voice: Aria-9</span>
+              </div>
+
+              <!-- Streamed Synthesis Content Box -->
+              <div class="synthesis-text-container" id="synthesisTextContainer">
+                <div class="synthesis-content" id="synthesisContent">
+                  <!-- Streamed typing effect content injected by JS -->
+                </div>
+              </div>
+
+              <!-- Multi-dimensional Analysis Chart -->
+              <div class="chart-embed-box glass-panel">
+                <div class="chart-header">
+                  <span class="chart-title">Information Reliability & Factor Vector</span>
+                  <span class="chart-badge">Cognitive Radar</span>
+                </div>
+                <div class="chart-canvas-wrap">
+                  <canvas id="synthesisRadarChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Interactive Key-Detail Highlighting Viewport & Entity Inspector -->
+          <div class="understand-right-col">
+            <div class="glass-card panel-container">
+              <div class="panel-header">
+                <div class="panel-title-group">
+                  <div class="panel-icon cyan-glow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                  </div>
+                  <div>
+                    <h2 class="panel-heading">Key-Detail & Entity Inspector</h2>
+                    <span class="panel-sub">Hover highlights to inspect cross-source confidence</span>
+                  </div>
+                </div>
+
+                <!-- Entity Highlight Filter Toggles -->
+                <div class="highlight-toggles">
+                  <button class="hl-toggle active" data-type="metric" title="Filter Numerical & Quantitative Metrics">
+                    <span class="color-dot dot-metric"></span> Metrics
+                  </button>
+                  <button class="hl-toggle active" data-type="risk" title="Filter Critical Risks & Conflict Points">
+                    <span class="color-dot dot-risk"></span> Risks & Discrepancies
+                  </button>
+                  <button class="hl-toggle active" data-type="entity" title="Filter Organizations & Standards">
+                    <span class="color-dot dot-entity"></span> Entities
+                  </button>
+                  <button class="hl-toggle active" data-type="strategic" title="Filter Strategic Milestones">
+                    <span class="color-dot dot-strategic"></span> Strategic
+                  </button>
+                </div>
+              </div>
+
+              <!-- Document Highlighting Viewport -->
+              <div class="document-highlight-viewport custom-scrollbar" id="documentHighlightViewport">
+                <div class="source-doc-header">
+                  <span class="doc-badge-chip">Active Excerpt: Quantum Solid-State Whitepaper (Lab vs Independent Audit)</span>
+                  <span class="doc-page-count">Section 4.2 • Thermal & Gravimetric Analysis</span>
+                </div>
+
+                <div class="highlighted-text-body" id="highlightedTextBody">
+                  <!-- Injected by JavaScript with interactive span annotations -->
+                </div>
+              </div>
+
+              <!-- Entity Deep Details Floating Drawer (Activated when entity is clicked/hovered) -->
+              <div class="entity-detail-card glass-panel" id="entityDetailCard">
+                <div class="edc-header">
+                  <div class="edc-title-group">
+                    <span class="edc-type-badge" id="edcType">NUMERICAL METRIC</span>
+                    <h4 class="edc-name" id="edcName">850 Wh/L Volumetric Density</h4>
+                  </div>
+                  <div class="edc-confidence-pill">
+                    <span class="conf-dot"></span>
+                    <span id="edcConfidence">99.1% Confidence</span>
+                  </div>
+                </div>
+                <div class="edc-body">
+                  <p class="edc-description" id="edcDescription">
+                    Claimed gravimetric benchmark tested under standard room temperature (25°C). However, cross-document comparison with Document B indicates thermal degradation to 680 Wh/L at 45°C.
+                  </p>
+                  <div class="edc-meta-row">
+                    <div class="meta-item">
+                      <span class="meta-k">Source Document:</span>
+                      <span class="meta-v" id="edcSource">NeoBattery Technical Report v2.4</span>
+                    </div>
+                    <div class="meta-item">
+                      <span class="meta-k">Verification Status:</span>
+                      <span class="meta-v text-amber" id="edcStatus">⚠️ Disputed in Audit</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Forward CTA -->
+              <div class="panel-footer-actions">
+                <button class="cyber-btn primary pulse-glow" id="btnProceedToOrganize">
+                  <span>Proceed to Stage 03: Organize & Detect Conflicts</span>
+                  <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- STAGE 3: ORGANIZE (SOURCE COMPARISON, CONFLICT DETECTION & KNOWLEDGE GRAPH) -->
+      <!-- ========================================================================= -->
+      <section class="stage-section" id="stage-organize" data-stage="organize">
+        <div class="stage-header-banner">
+          <div class="banner-content">
+            <div class="banner-badge"><span class="badge-dot amber-dot"></span> PHASE 3: ORGANIZE & RESOLVE</div>
+            <h1 class="stage-title">Cross-Source Comparison, Conflict Detection & Knowledge Graph</h1>
+            <p class="stage-desc">
+              Discover hidden contradictions, factual misalignments, and cross-source variations.
+              Explore the animated Neural Knowledge Graph to inspect synaptic relationships.
+            </p>
+          </div>
+          
+          <!-- Sub-view switcher for Organize stage -->
+          <div class="organize-subnav-pills">
+            <button class="subnav-pill active" data-subview="conflicts" id="subnavConflicts">
+              <span class="subnav-icon">⚠️</span>
+              <span>Conflict Detection Matrix</span>
+              <span class="counter-badge" id="conflictCounter">3</span>
+            </button>
+            <button class="subnav-pill" data-subview="compare" id="subnavCompare">
+              <span class="subnav-icon">⚖️</span>
+              <span>Side-by-Side Comparator</span>
+            </button>
+            <button class="subnav-pill" data-subview="graph" id="subnavGraph">
+              <span class="subnav-icon">🕸️</span>
+              <span>Neural Knowledge Graph</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- SUBVIEW A: CONFLICT DETECTION MATRIX -->
+        <div class="organize-subview active" id="view-conflicts">
+          <div class="conflict-matrix-grid">
+            <!-- Left: Active Inconsistency Cards -->
+            <div class="conflict-cards-col">
+              <div class="glass-card panel-container">
+                <div class="panel-header">
+                  <div class="panel-title-group">
+                    <div class="panel-icon amber-glow">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    </div>
+                    <div>
+                      <h2 class="panel-heading">Detected Cross-Document Inconsistencies</h2>
+                      <span class="panel-sub">Synapse AI cross-referenced claims across all uploaded sources</span>
+                    </div>
+                  </div>
+                  <button class="cyber-btn sm secondary" id="btnAutoResolveAll">
+                    <span>⚡ AI Auto-Arbitrate All</span>
+                  </button>
+                </div>
+
+                <div class="conflict-feed-list" id="conflictFeedList">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Interactive Conflict Arbiter & Resolution Studio -->
+            <div class="conflict-resolution-col">
+              <div class="glass-card panel-container">
+                <div class="panel-header">
+                  <div class="panel-title-group">
+                    <div class="panel-icon emerald-glow">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <div>
+                      <h2 class="panel-heading">AI Arbitration Engine</h2>
+                      <span class="panel-sub">Methodology audit, sample size weighting, and recommended truth</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="arbiter-workspace" id="arbiterWorkspace">
+                  <!-- Dynamic resolution studio populated on conflict selection -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUBVIEW B: SIDE-BY-SIDE SOURCE COMPARATOR -->
+        <div class="organize-subview" id="view-compare">
+          <div class="comparator-wrapper glass-card">
+            <div class="comparator-controls-bar">
+              <div class="comp-col-selector">
+                <label>Left Stream:</label>
+                <select id="leftSourceSelect" class="cyber-select">
+                  <option value="doc1">Source A: Internal Lab R&D Whitepaper v2.4</option>
+                  <option value="doc2">Source B: Independent Third-Party Audit (UL Solutions)</option>
+                  <option value="doc3">Source C: SEC 10-K Strategic Production Roadmap</option>
+                </select>
+              </div>
+              <div class="comp-middle-indicator">
+                <span class="vs-badge">VS</span>
+                <button class="ghost-btn-sm" id="btnSyncScroll">
+                  <span class="sync-dot"></span> Sync Scroll: ON
+                </button>
+              </div>
+              <div class="comp-col-selector">
+                <label>Right Stream:</label>
+                <select id="rightSourceSelect" class="cyber-select">
+                  <option value="doc2" selected>Source B: Independent Third-Party Audit (UL Solutions)</option>
+                  <option value="doc1">Source A: Internal Lab R&D Whitepaper v2.4</option>
+                  <option value="doc3">Source C: SEC 10-K Strategic Production Roadmap</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Diff Content Viewport -->
+            <div class="comparator-split-view">
+              <div class="comp-pane" id="compPaneLeft">
+                <div class="pane-header">
+                  <span class="pane-tag">SOURCE A • LAB SPECIFICATIONS</span>
+                  <span class="pane-meta">Lab Bench Standard (STP: 25°C)</span>
+                </div>
+                <div class="pane-content-body custom-scrollbar" id="leftPaneContent">
+                  <!-- Injected via JS -->
+                </div>
+              </div>
+
+              <div class="comp-diff-divider">
+                <div class="divider-line"></div>
+                <div class="diff-badge-indicator" id="diffCountBadge">3 Inconsistencies Highlighted</div>
+              </div>
+
+              <div class="comp-pane" id="compPaneRight">
+                <div class="pane-header">
+                  <span class="pane-tag right-tag">SOURCE B • AUDIT FINDINGS</span>
+                  <span class="pane-meta">Real-World Environmental Stress (ASTM-D48)</span>
+                </div>
+                <div class="pane-content-body custom-scrollbar" id="rightPaneContent">
+                  <!-- Injected via JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUBVIEW C: INTERACTIVE NEURAL KNOWLEDGE GRAPH -->
+        <div class="organize-subview" id="view-graph">
+          <div class="knowledge-graph-container glass-card">
+            <div class="graph-header-controls">
+              <div class="graph-title-block">
+                <h3 class="graph-heading">Interactive Cognitive Knowledge Graph</h3>
+                <span class="graph-sub">Force-directed neural topology: Drag nodes to reposition • Scroll to zoom</span>
+              </div>
+              <div class="graph-actions-row">
+                <div class="graph-legend">
+                  <span class="legend-item"><span class="legend-dot dot-cyan"></span> Core Concept</span>
+                  <span class="legend-item"><span class="legend-dot dot-purple"></span> Quantitative Metric</span>
+                  <span class="legend-item"><span class="legend-dot dot-amber"></span> Conflicting Claim</span>
+                  <span class="legend-item"><span class="legend-dot dot-emerald"></span> Verified Baseline</span>
+                </div>
+                <button class="ghost-btn-sm" id="btnResetGraph">Reset Physics</button>
+              </div>
+            </div>
+
+            <div class="graph-canvas-viewport">
+              <canvas id="knowledgeGraphCanvas"></canvas>
+              <div class="graph-overlay-hint">
+                <span class="hint-icon">🖱️</span> Hover or click any node to inspect semantic cluster connections
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Forward CTA -->
+        <div class="organize-bottom-action">
+          <button class="cyber-btn primary pulse-glow" id="btnProceedToUse">
+            <span>Proceed to Stage 04: Use & Generate Deliverables</span>
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- STAGE 4: USE (ACTIONABLE COPILOT, REPORT STUDIO, GROUNDED Q&A)             -->
+      <!-- ========================================================================= -->
+      <section class="stage-section" id="stage-use" data-stage="use">
+        <div class="stage-header-banner">
+          <div class="banner-content">
+            <div class="banner-badge"><span class="badge-dot emerald-dot"></span> PHASE 4: ACTION & DELIVERABLES</div>
+            <h1 class="stage-title">Grounded AI Copilot & Executive Deliverable Studio</h1>
+            <p class="stage-desc">
+              Interact with the multi-source corpus via hallucination-free grounded AI Q&A with clickable citations.
+              Export dynamic board-ready executive briefs, risk mitigation checklists, and markdown reports.
+            </p>
+          </div>
+          <div class="banner-actions">
+            <button class="cyber-btn secondary" id="btnExportMarkdown">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              Copy Report (Markdown)
+            </button>
+            <button class="cyber-btn primary" id="btnPrintReport">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Print / Save PDF
+            </button>
+          </div>
+        </div>
+
+        <div class="use-layout-grid">
+          <!-- Left Column: Grounded AI Copilot Chat -->
+          <div class="use-chat-col">
+            <div class="glass-card panel-container">
+              <div class="panel-header">
+                <div class="panel-title-group">
+                  <div class="panel-icon cyan-glow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  </div>
+                  <div>
+                    <h2 class="panel-heading">Grounded Copilot</h2>
+                    <span class="panel-sub">Every claim linked directly to source passages</span>
+                  </div>
+                </div>
+                <div class="model-badge">
+                  <span class="live-dot emerald"></span> Synapse-Reasoner 4.5
+                </div>
+              </div>
+
+              <!-- Quick Suggestion Chips -->
+              <div class="chat-prompt-chips">
+                <button class="p-chip" data-prompt="What are the critical discrepancies between Document A and Document B?">
+                  ⚡ Critical Discrepancies
+                </button>
+                <button class="p-chip" data-prompt="What is the true volumetric energy density under high thermal stress?">
+                  🔋 Density under Stress
+                </button>
+                <button class="p-chip" data-prompt="Generate a 4-bullet board briefing on production feasibility.">
+                  📋 Board Briefing
+                </button>
+              </div>
+
+              <!-- Chat Message History -->
+              <div class="chat-messages-container custom-scrollbar" id="chatMessagesContainer">
+                <!-- Injected via JS -->
+              </div>
+
+              <!-- Chat Input Box -->
+              <div class="chat-input-bar">
+                <div class="input-glow-wrapper">
+                  <input type="text" id="chatInput" class="chat-input-field" placeholder="Ask a grounded question about the ingested information..." autocomplete="off">
+                  <button class="chat-send-btn" id="btnSendChat" title="Submit Message">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  </button>
+                </div>
+                <div class="chat-disclaimer">
+                  <span>🔒 Fully Grounded: Cross-references 3 active documents • Hallucination probability &lt; 0.01%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Board-Ready Intelligence Deliverable Studio -->
+          <div class="use-deliverable-col">
+            <div class="glass-card panel-container">
+              <div class="panel-header">
+                <div class="panel-title-group">
+                  <div class="panel-icon purple-glow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+                  </div>
+                  <div>
+                    <h2 class="panel-heading">Executive Deliverable & Action Matrix</h2>
+                    <span class="panel-sub">Dynamically compiled decision memorandum ready for dissemination</span>
+                  </div>
+                </div>
+                <div class="report-tabs">
+                  <button class="rep-tab active" data-rep="memo">Executive Memo</button>
+                  <button class="rep-tab" data-rep="matrix">Decision Matrix</button>
+                  <button class="rep-tab" data-rep="action">Action Plan</button>
+                </div>
+              </div>
+
+              <!-- Dynamic Document Viewer -->
+              <div class="deliverable-content-area custom-scrollbar" id="deliverableContentArea">
+                <!-- Populated dynamically via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- HACKATHON JURY TOUR OVERLAY & COACHMARKS -->
+    <div class="jury-tour-modal" id="juryTourModal">
+      <div class="tour-backdrop"></div>
+      <div class="tour-card glass-card">
+        <div class="tour-header">
+          <div class="tour-step-badge">
+            <span class="sparkle">✨</span>
+            <span id="tourStepIndicator">JURY DEMO: STEP 1 OF 4</span>
+          </div>
+          <button class="tour-close-btn" id="btnTourClose" title="Exit Tour">✕</button>
+        </div>
+        <div class="tour-body">
+          <h3 class="tour-title" id="tourTitle">Welcome to Synapse AI: Information Understanding</h3>
+          <p class="tour-desc" id="tourDescription">
+            Let's walk through how Synapse AI solves the modern information overload challenge through a seamless 4-stage pipeline: Find, Understand, Organize, and Use.
+          </p>
+          <div class="tour-features-list" id="tourFeaturesList">
+            <!-- Dynamic step bullet points -->
+          </div>
+        </div>
+        <div class="tour-footer">
+          <button class="cyber-btn sm secondary" id="btnTourPrev">Back</button>
+          <div class="tour-dots" id="tourDots">
+            <span class="tour-dot active"></span>
+            <span class="tour-dot"></span>
+            <span class="tour-dot"></span>
+            <span class="tour-dot"></span>
+          </div>
+          <button class="cyber-btn sm primary" id="btnTourNext">Next Phase →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- USER AUTHENTICATION & LOGIN/REGISTER MODAL -->
+    <div class="jury-tour-modal" id="authModal">
+      <div class="tour-backdrop" id="authModalBackdrop"></div>
+      <div class="tour-card glass-card" style="max-width: 480px;">
+        <div class="tour-header">
+          <div class="tour-step-badge">
+            <span class="sparkle">🔒</span>
+            <span id="authModalTitle">SYNAPSE AI AUTHENTICATION</span>
+          </div>
+          <button class="tour-close-btn" id="btnAuthClose" title="Close Modal">✕</button>
+        </div>
+        <div class="tour-body">
+          <div class="density-group" style="margin-bottom: 16px;">
+            <div class="pill-segmented" style="width: 100%;">
+              <button class="seg-btn active" id="tabAuthLogin" style="flex:1;">Sign In</button>
+              <button class="seg-btn" id="tabAuthRegister" style="flex:1;">Create Account</button>
+            </div>
+          </div>
+
+          <form id="authForm">
+            <div id="authRegisterFields" style="display: none; margin-bottom: 12px;">
+              <label style="font-size: 0.78rem; color: var(--text-dim); display: block; margin-bottom: 4px;">Full Name</label>
+              <input type="text" id="authFullName" class="semantic-search-input" style="background: rgba(10,16,30,0.8); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); padding: 8px 12px; width: 100%; margin-bottom: 10px;" placeholder="Dr. Elena Vance">
+
+              <label style="font-size: 0.78rem; color: var(--text-dim); display: block; margin-bottom: 4px;">Email Address</label>
+              <input type="email" id="authEmail" class="semantic-search-input" style="background: rgba(10,16,30,0.8); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); padding: 8px 12px; width: 100%; margin-bottom: 10px;" placeholder="analyst@synapse.ai">
+            </div>
+
+            <div style="margin-bottom: 12px;">
+              <label style="font-size: 0.78rem; color: var(--text-dim); display: block; margin-bottom: 4px;">Username or Email</label>
+              <input type="text" id="authUsername" class="semantic-search-input" style="background: rgba(10,16,30,0.8); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); padding: 8px 12px; width: 100%;" placeholder="lead_analyst" value="lead_analyst" required>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+              <label style="font-size: 0.78rem; color: var(--text-dim); display: block; margin-bottom: 4px;">Password</label>
+              <input type="password" id="authPassword" class="semantic-search-input" style="background: rgba(10,16,30,0.8); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); padding: 8px 12px; width: 100%;" placeholder="••••••••" value="synapse123" required>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+              <button type="button" class="ghost-btn-sm" id="btnFillDemoCreds" title="Fill seeded credentials">
+                ⚡ Auto-Fill Demo Analyst
+              </button>
+              <span id="authErrorMsg" style="font-size: 0.75rem; color: #f87171;"></span>
+            </div>
+
+            <button type="submit" class="cyber-btn primary" id="btnAuthSubmit" style="width: 100%;">
+              <span id="authSubmitText">Authenticate with FastAPI & MySQL</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-hub" id="toastHub"></div>
+
+  </div>
+
+  <!-- Main Application Script -->
+  <script src="app.js"></script>
+</body>
+</html>
